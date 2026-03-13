@@ -307,16 +307,13 @@
     </div>
   </div>
 
-  <!-- Step 3: CNPJ -->
+  <!-- Step 3: Tipo de empresa -->
   <div class="step" data-step="3">
-    <div class="step-question">Qual o CNPJ da empresa?</div>
-    <div class="step-hint">Opcional — se tiver, nos ajuda a fazer a cotação</div>
-    <input type="text" class="input-field" id="cnpj" placeholder="00.000.000/0000-00">
-    <div style="margin-top:14px;">
-      <div class="options grid">
-        <label class="opt opt-simple"><input type="radio" name="tipoEmpresa" value="MEI"><span class="opt-label"><span class="opt-text">MEI</span></span></label>
-        <label class="opt opt-simple"><input type="radio" name="tipoEmpresa" value="LTDA / outros"><span class="opt-label"><span class="opt-text">LTDA / outros</span></span></label>
-      </div>
+    <div class="step-question">Qual o tipo da sua empresa?</div>
+    <div class="step-hint">Selecione abaixo</div>
+    <div class="options grid">
+      <label class="opt opt-simple"><input type="radio" name="tipoEmpresa" value="MEI" onchange="autoNext()"><span class="opt-label"><span class="opt-text">MEI</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="tipoEmpresa" value="LTDA / outros" onchange="autoNext()"><span class="opt-label"><span class="opt-text">LTDA / outros</span></span></label>
     </div>
     <div class="nav-buttons">
       <button class="btn-back" onclick="prevStep()">← Voltar</button>
@@ -553,24 +550,12 @@ document.getElementById('telefone').addEventListener('input', function(e) {
   e.target.value = v;
 });
 
-// CNPJ mask
-document.getElementById('cnpj').addEventListener('input', function(e) {
-  let v = e.target.value.replace(/\D/g, '');
-  if (v.length > 14) v = v.slice(0, 14);
-  if (v.length > 12) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5,8)+'/'+v.slice(8,12)+'-'+v.slice(12);
-  else if (v.length > 8) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5,8)+'/'+v.slice(8);
-  else if (v.length > 5) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5);
-  else if (v.length > 2) v = v.slice(0,2)+'.'+v.slice(2);
-  e.target.value = v;
-});
-
 function buildSummary() {
   const card = document.getElementById('summaryCard');
   let html = '';
   const rows = [
     ['Nome', getVal('nome')],
     ['WhatsApp', getVal('telefone')],
-    ['CNPJ', getVal('cnpj')],
     ['Tipo', getRadio('tipoEmpresa')],
     ['Pessoas', getRadio('qtdPessoas')],
     ['Interesse', getRadio('motivo')],
@@ -608,7 +593,6 @@ function sendToGoogleSheets(data) {
 function submitForm() {
   const nome = getVal('nome');
   const telefone = getVal('telefone');
-  const cnpj = getVal('cnpj');
   const tipo = getRadio('tipoEmpresa');
   const qtd = getRadio('qtdPessoas');
   const motivo = getRadio('motivo');
@@ -620,7 +604,7 @@ function submitForm() {
   // Envia para Google Sheets (em background)
   sendToGoogleSheets({
     dataHora: new Date().toLocaleString('pt-BR'),
-    nome, telefone, cnpj, tipo, qtdPessoas: qtd,
+    nome, telefone, tipo, qtdPessoas: qtd,
     motivo, temPlano, operadora, tempo, valor
   });
 
@@ -629,7 +613,6 @@ function submitForm() {
   msg += `━━━━━━━━━━━━━━━\n`;
   msg += `👤 *Nome:* ${nome}\n`;
   msg += `📱 *WhatsApp:* ${telefone}\n`;
-  if (cnpj) msg += `🏢 *CNPJ:* ${cnpj}\n`;
   if (tipo) msg += `📋 *Tipo:* ${tipo}\n`;
   if (qtd) msg += `👥 *Pessoas:* ${qtd}\n`;
   if (motivo) msg += `🎯 *Interesse:* ${motivo}\n`;
