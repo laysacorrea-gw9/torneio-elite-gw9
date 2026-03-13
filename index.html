@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GW9 Saude | Torneio Elite Beach Tennis 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    padding: 36px 20px 28px;
+    text-align: center;
+    border-bottom: 2px solid #c9a84c;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center top, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+  .logo-img {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px rgba(201,168,76,0.35)) drop-shadow(0 0 4px rgba(255,255,255,0.15));
+  }
+  .logo-img.elite {
+    height: 85px;
+  }
+  .logo-divider { color: #c9a84c; font-size: 22px; opacity: 0.5; }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #c9a84c, #e8d48b, #c9a84c);
+    color: #0a0a0a;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 5px 18px; border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 24px; font-weight: 700; line-height: 1.3; margin-bottom: 8px;
+  }
+  .hero h1 em { font-style: normal; color: #c9a84c; }
+  .hero p {
+    font-size: 14px; color: #aaa; max-width: 460px;
+    margin: 0 auto 18px; line-height: 1.6;
+  }
+  .cashback-box {
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px; padding: 14px 22px;
+    max-width: 380px; margin: 0 auto;
+  }
+  .cashback-box .lbl {
+    font-size: 11px; color: #c9a84c;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px;
+  }
+  .cashback-box .val { font-size: 18px; font-weight: 700; }
+  .cashback-box .sub { font-size: 11px; color: #888; margin-top: 3px; }
+
+  /* Operators */
+  .operators {
+    display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+    padding: 14px 20px; background: #111;
+  }
+  .operators span { font-size: 10px; color: #555; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* Progress bar */
+  .progress-wrap {
+    max-width: 480px; margin: 0 auto; padding: 24px 20px 0;
+  }
+  .progress-bar {
+    height: 4px; background: #222; border-radius: 4px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, #c9a84c, #e8d48b);
+    border-radius: 4px; transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: 11px; color: #666; margin-top: 6px; text-align: right;
+  }
+
+  /* Form wizard */
+  .wizard {
+    max-width: 480px; margin: 0 auto; padding: 20px 20px 40px;
+    position: relative; min-height: 320px;
+  }
+
+  .step {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .step.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-question {
+    font-size: 18px; font-weight: 600; margin-bottom: 6px; line-height: 1.4;
+  }
+  .step-hint {
+    font-size: 13px; color: #888; margin-bottom: 20px;
+  }
+
+  /* Input */
+  .input-field {
+    width: 100%; padding: 16px 18px;
+    background: #1a1a1a; border: 1px solid #333;
+    border-radius: 12px; color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px; outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .input-field:focus {
+    border-color: #c9a84c;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+  }
+  .input-field::placeholder { color: #555; }
+
+  /* Option buttons */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .options.grid { display: grid; grid-template-columns: 1fr 1fr; }
+
+  .opt {
+    position: relative; cursor: pointer;
+  }
+  .opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .opt .opt-label {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 18px;
+    background: #1a1a1a; border: 1px solid #333;
+    border-radius: 12px; font-size: 15px; color: #ccc;
+    transition: all 0.25s;
+  }
+  .opt .opt-label .opt-icon {
+    font-size: 20px; flex-shrink: 0;
+  }
+  .opt .opt-label .opt-text {
+    font-weight: 500;
+  }
+  .opt .opt-label .opt-sub {
+    display: block; font-size: 11px; color: #777; font-weight: 400; margin-top: 2px;
+  }
+  .opt input:checked + .opt-label {
+    background: rgba(201,168,76,0.1);
+    border-color: #c9a84c;
+    color: #c9a84c;
+  }
+  .opt .opt-label:hover { border-color: #555; }
+  .opt input:checked + .opt-label:hover { border-color: #c9a84c; }
+
+  /* Grid option (simpler) */
+  .opt-simple .opt-label {
+    justify-content: center; text-align: center;
+    padding: 14px 12px; font-size: 14px;
+  }
+
+  /* Navigation buttons */
+  .nav-buttons {
+    display: flex; gap: 10px; margin-top: 24px;
+  }
+  .btn-back {
+    padding: 14px 24px; background: transparent; border: 1px solid #333;
+    border-radius: 12px; color: #888; font-family: 'Montserrat', sans-serif;
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-back:hover { border-color: #666; color: #ccc; }
+
+  .btn-next {
+    flex: 1; padding: 14px 24px;
+    background: linear-gradient(135deg, #c9a84c, #e0c06a);
+    border: none; border-radius: 12px;
+    color: #0a0a0a; font-family: 'Montserrat', sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: 0.5px;
+    cursor: pointer; transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+  }
+  .btn-next:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 30px rgba(201,168,76,0.4);
+  }
+  .btn-next:disabled {
+    opacity: 0.4; cursor: not-allowed; transform: none;
+    box-shadow: none;
+  }
+
+  .btn-submit {
+    flex: 1; padding: 16px 24px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    border: none; border-radius: 12px;
+    color: #fff; font-family: 'Montserrat', sans-serif;
+    font-size: 16px; font-weight: 700; letter-spacing: 0.5px;
+    cursor: pointer; transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 30px rgba(37,211,102,0.4);
+  }
+
+  /* Summary */
+  .summary-card {
+    background: #141414; border: 1px solid #2a2a2a;
+    border-radius: 14px; padding: 20px; margin-bottom: 20px;
+  }
+  .summary-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 10px 0; border-bottom: 1px solid #1e1e1e;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-label { font-size: 12px; color: #777; text-transform: uppercase; letter-spacing: 1px; }
+  .summary-value { font-size: 14px; color: #fff; font-weight: 500; text-align: right; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 20px; border-top: 1px solid #1a1a1a;
+    font-size: 11px; color: #444;
+  }
+  .footer a { color: #c9a84c; text-decoration: none; }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 20px; }
+    .options.grid { grid-template-columns: 1fr; }
+    .step-question { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="logos">
+    <img class="logo-img" src="img/logo-gw9.png" alt="GW9 Plano de Saude">
+    <div class="logo-divider">&times;</div>
+    <img class="logo-img elite" src="img/logo-elite.png" alt="Elite Beach Tennis">
+  </div>
+  <div class="badge">Acao Exclusiva &mdash; Torneio 2026</div>
+  <h1>Receba de volta sua <em>1&ordf; mensalidade</em></h1>
+  <p>Plano de saude empresarial com cashback exclusivo para participantes do torneio.</p>
+  <div class="cashback-box">
+    <div class="lbl">Cashback Garantido</div>
+    <div class="val">100% da 1&ordf; mensalidade de volta</div>
+    <div class="sub">Valido por 60 dias apos o evento</div>
+  </div>
+</div>
+
+<div class="operators">
+  <span>Amil</span><span>&bull;</span><span>Porto Seguro</span><span>&bull;</span>
+  <span>SulAmerica</span><span>&bull;</span><span>Bradesco</span><span>&bull;</span>
+  <span>Unimed</span><span>&bull;</span><span>Leve Saude</span><span>&bull;</span><span>MedSenior</span>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText"></div>
+</div>
+
+<!-- WIZARD -->
+<div class="wizard" id="wizard">
+
+  <!-- Step 1: Nome -->
+  <div class="step active" data-step="1">
+    <div class="step-question">Como podemos te chamar?</div>
+    <div class="step-hint">Seu nome completo</div>
+    <input type="text" class="input-field" id="nome" placeholder="Ex: Maria Silva" autofocus>
+    <div class="nav-buttons">
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Telefone -->
+  <div class="step" data-step="2">
+    <div class="step-question">Qual seu WhatsApp?</div>
+    <div class="step-hint">Para receber a simulacao personalizada</div>
+    <input type="tel" class="input-field" id="telefone" placeholder="(21) 99999-9999">
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Voltar</button>
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 3: CNPJ -->
+  <div class="step" data-step="3">
+    <div class="step-question">Qual o CNPJ da empresa?</div>
+    <div class="step-hint">MEI ou LTDA &mdash; precisamos para a cotacao</div>
+    <input type="text" class="input-field" id="cnpj" placeholder="00.000.000/0000-00">
+    <div style="margin-top:14px;">
+      <div class="options grid">
+        <label class="opt opt-simple"><input type="radio" name="tipoEmpresa" value="MEI"><span class="opt-label"><span class="opt-text">MEI</span></span></label>
+        <label class="opt opt-simple"><input type="radio" name="tipoEmpresa" value="LTDA / outros"><span class="opt-label"><span class="opt-text">LTDA / outros</span></span></label>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Voltar</button>
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Qtd pessoas -->
+  <div class="step" data-step="4">
+    <div class="step-question">Quantas pessoas serao incluidas?</div>
+    <div class="step-hint">Contando titular e dependentes</div>
+    <div class="options grid">
+      <label class="opt opt-simple"><input type="radio" name="qtdPessoas" value="2 pessoas" onchange="autoNext()"><span class="opt-label"><span class="opt-text">2</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="qtdPessoas" value="3 pessoas" onchange="autoNext()"><span class="opt-label"><span class="opt-text">3</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="qtdPessoas" value="4 pessoas" onchange="autoNext()"><span class="opt-label"><span class="opt-text">4</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="qtdPessoas" value="5 ou mais" onchange="autoNext()"><span class="opt-label"><span class="opt-text">5 ou mais</span></span></label>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Voltar</button>
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 5: Motivo -->
+  <div class="step" data-step="5">
+    <div class="step-question">O que e mais importante para voce?</div>
+    <div class="step-hint">Isso nos ajuda a encontrar o plano ideal</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="motivo" value="Melhor custo-beneficio" onchange="autoNext()"><span class="opt-label"><span class="opt-icon">&#x1F4B0;</span><span><span class="opt-text">Melhor custo-beneficio</span><span class="opt-sub">Quero pagar menos sem perder qualidade</span></span></span></label>
+      <label class="opt"><input type="radio" name="motivo" value="Rede credenciada ampla" onchange="autoNext()"><span class="opt-label"><span class="opt-icon">&#x1F3E5;</span><span><span class="opt-text">Rede credenciada ampla</span><span class="opt-sub">Hospitais e medicos de referencia</span></span></span></label>
+      <label class="opt"><input type="radio" name="motivo" value="Nova contratacao" onchange="autoNext()"><span class="opt-label"><span class="opt-icon">&#x2728;</span><span><span class="opt-text">Primeira contratacao</span><span class="opt-sub">Ainda nao tenho plano empresarial</span></span></span></label>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Voltar</button>
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 6: Ja tem plano -->
+  <div class="step" data-step="6">
+    <div class="step-question">Sua empresa ja possui plano de saude?</div>
+    <div class="step-hint"></div>
+    <div class="options grid">
+      <label class="opt opt-simple"><input type="radio" name="temPlano" value="Sim" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Sim</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="temPlano" value="Nao" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Nao</span></span></label>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Voltar</button>
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 7: Operadora (condicional) -->
+  <div class="step" data-step="7">
+    <div class="step-question">Qual sua operadora atual?</div>
+    <div class="step-hint">Para comparar e encontrar a melhor opcao</div>
+    <div class="options grid">
+      <label class="opt opt-simple"><input type="radio" name="operadora" value="Unimed" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Unimed</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="operadora" value="SulAmerica" onchange="autoNext()"><span class="opt-label"><span class="opt-text">SulAmerica</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="operadora" value="Amil" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Amil</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="operadora" value="Porto Seguro" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Porto Seguro</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="operadora" value="Bradesco" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Bradesco</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="operadora" value="Leve Saude" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Leve Saude</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="operadora" value="MedSenior" onchange="autoNext()"><span class="opt-label"><span class="opt-text">MedSenior</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="operadora" value="Outra" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Outra</span></span></label>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Voltar</button>
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 8: Tempo de plano (condicional) -->
+  <div class="step" data-step="8">
+    <div class="step-question">Ha quanto tempo possui o plano?</div>
+    <div class="step-hint">Isso influencia nas condicoes de migracao</div>
+    <div class="options grid">
+      <label class="opt opt-simple"><input type="radio" name="tempoPlano" value="Menos de 1 ano" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Menos de 1 ano</span></span></label>
+      <label class="opt opt-simple"><input type="radio" name="tempoPlano" value="Mais de 1 ano" onchange="autoNext()"><span class="opt-label"><span class="opt-text">Mais de 1 ano</span></span></label>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Voltar</button>
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 9: Quanto paga (condicional) -->
+  <div class="step" data-step="9">
+    <div class="step-question">Quanto paga atualmente no plano?</div>
+    <div class="step-hint">Valor mensal aproximado de todos os beneficiarios</div>
+    <div class="options">
+      <label class="opt"><input type="radio" name="valorAtual" value="Menos de R$1.000" onchange="autoNext()"><span class="opt-label"><span class="opt-icon">&#x1F4B5;</span><span class="opt-text">Menos de R$ 1.000</span></span></label>
+      <label class="opt"><input type="radio" name="valorAtual" value="R$1.000 a R$2.000" onchange="autoNext()"><span class="opt-label"><span class="opt-icon">&#x1F4B5;</span><span class="opt-text">R$ 1.000 a R$ 2.000</span></span></label>
+      <label class="opt"><input type="radio" name="valorAtual" value="R$2.000 a R$5.000" onchange="autoNext()"><span class="opt-label"><span class="opt-icon">&#x1F4B0;</span><span class="opt-text">R$ 2.000 a R$ 5.000</span></span></label>
+      <label class="opt"><input type="radio" name="valorAtual" value="Mais de R$5.000" onchange="autoNext()"><span class="opt-label"><span class="opt-icon">&#x1F4B6;</span><span class="opt-text">Mais de R$ 5.000</span></span></label>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Voltar</button>
+      <button class="btn-next" onclick="nextStep()">Continuar &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step Final: Resumo + envio -->
+  <div class="step" data-step="final">
+    <div class="step-question">Tudo certo! Confira seus dados:</div>
+    <div class="step-hint">Ao clicar no botao, voce sera direcionado ao WhatsApp da GW9</div>
+    <div class="summary-card" id="summaryCard"></div>
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="prevStep()">&larr; Corrigir</button>
+      <button class="btn-submit" onclick="submitForm()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Falar com a GW9 no WhatsApp
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  GW9 Plano de Saude &mdash; <a href="https://www.gw9capital.com.br" target="_blank">www.gw9capital.com.br</a><br>
+  Elite Beach Tennis 2026
+</div>
+
+<script>
+let currentStep = 1;
+
+function getVal(id) { return document.getElementById(id) ? document.getElementById(id).value.trim() : ''; }
+function getRadio(name) { const el = document.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : ''; }
+
+function getStepOrder() {
+  const steps = [1,2,3,4,5,6];
+  if (getRadio('temPlano') === 'Sim') {
+    steps.push(7, 8, 9);
+  }
+  steps.push('final');
+  return steps;
+}
+
+function updateProgress() {
+  const order = getStepOrder();
+  const idx = order.indexOf(currentStep);
+  const pct = currentStep === 'final' ? 100 : Math.round((idx / (order.length - 1)) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  if (currentStep === 'final') {
+    document.getElementById('progressText').textContent = 'Pronto!';
+  } else {
+    const stepNum = typeof currentStep === 'number' ? idx + 1 : order.length;
+    document.getElementById('progressText').textContent = 'Passo ' + stepNum + ' de ' + (order.length - 1);
+  }
+}
+
+function showStep(step) {
+  document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
+  var selector = step === 'final' ? '[data-step="final"]' : '[data-step="' + step + '"]';
+  var el = document.querySelector(selector);
+  if (el) {
+    el.classList.add('active');
+    var input = el.querySelector('.input-field');
+    if (input) setTimeout(function() { input.focus(); }, 100);
+  }
+  currentStep = step;
+  updateProgress();
+  if (step === 'final') buildSummary();
+}
+
+function nextStep() {
+  if (currentStep === 1 && !getVal('nome')) { shake('nome'); return; }
+  if (currentStep === 2) {
+    var tel = getVal('telefone').replace(/\D/g, '');
+    if (tel.length < 10) { shake('telefone'); return; }
+  }
+  var order = getStepOrder();
+  var idx = order.indexOf(currentStep);
+  if (idx < order.length - 1) {
+    showStep(order[idx + 1]);
+  }
+}
+
+function prevStep() {
+  var order = getStepOrder();
+  var idx = order.indexOf(currentStep);
+  if (idx > 0) {
+    showStep(order[idx - 1]);
+  }
+}
+
+function autoNext() {
+  setTimeout(function() { nextStep(); }, 350);
+}
+
+function shake(id) {
+  var el = document.getElementById(id);
+  el.style.borderColor = '#e74c3c';
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = 'shake 0.4s ease';
+  setTimeout(function() { el.style.borderColor = '#333'; }, 2000);
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && typeof currentStep === 'number') {
+    e.preventDefault();
+    nextStep();
+  }
+});
+
+// Phone mask
+document.getElementById('telefone').addEventListener('input', function(e) {
+  var v = e.target.value.replace(/\D/g, '');
+  if (v.length > 11) v = v.slice(0, 11);
+  if (v.length > 6) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+  else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+  else if (v.length > 0) v = '(' + v;
+  e.target.value = v;
+});
+
+// CNPJ mask
+document.getElementById('cnpj').addEventListener('input', function(e) {
+  var v = e.target.value.replace(/\D/g, '');
+  if (v.length > 14) v = v.slice(0, 14);
+  if (v.length > 12) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5,8)+'/'+v.slice(8,12)+'-'+v.slice(12);
+  else if (v.length > 8) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5,8)+'/'+v.slice(8);
+  else if (v.length > 5) v = v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5);
+  else if (v.length > 2) v = v.slice(0,2)+'.'+v.slice(2);
+  e.target.value = v;
+});
+
+function buildSummary() {
+  var card = document.getElementById('summaryCard');
+  var html = '';
+  var rows = [
+    ['Nome', getVal('nome')],
+    ['WhatsApp', getVal('telefone')],
+    ['CNPJ', getVal('cnpj')],
+    ['Tipo', getRadio('tipoEmpresa')],
+    ['Pessoas', getRadio('qtdPessoas')],
+    ['Interesse', getRadio('motivo')],
+    ['Ja tem plano', getRadio('temPlano')]
+  ];
+  if (getRadio('temPlano') === 'Sim') {
+    rows.push(['Operadora atual', getRadio('operadora')]);
+    rows.push(['Tempo de plano', getRadio('tempoPlano')]);
+    rows.push(['Valor atual', getRadio('valorAtual')]);
+  }
+  rows.forEach(function(r) {
+    var label = r[0], value = r[1];
+    if (value) {
+      html += '<div class="summary-row"><span class="summary-label">' + label + '</span><span class="summary-value">' + value + '</span></div>';
+    }
+  });
+  card.innerHTML = html;
+}
+
+// ========== GOOGLE SHEETS INTEGRATION ==========
+var GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwlrO3AzWzWqe_MJghH-m0Kc0PVHfZG8p5870N41vghkbSaj9DfOk_8HChy4zfClm2C/exec';
+
+function sendToGoogleSheets(data) {
+  if (!GOOGLE_SHEETS_URL) return;
+  try {
+    fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch(e) { console.log('Planilha: erro ao enviar', e); }
+}
+
+function submitForm() {
+  var nome = getVal('nome');
+  var telefone = getVal('telefone');
+  var cnpj = getVal('cnpj');
+  var tipo = getRadio('tipoEmpresa');
+  var qtd = getRadio('qtdPessoas');
+  var motivo = getRadio('motivo');
+  var temPlano = getRadio('temPlano');
+  var operadora = temPlano === 'Sim' ? getRadio('operadora') : '';
+  var tempo = temPlano === 'Sim' ? getRadio('tempoPlano') : '';
+  var valor = temPlano === 'Sim' ? getRadio('valorAtual') : '';
+
+  // Envia para Google Sheets (em background)
+  sendToGoogleSheets({
+    dataHora: new Date().toLocaleString('pt-BR'),
+    nome: nome, telefone: telefone, cnpj: cnpj, tipo: tipo, qtdPessoas: qtd,
+    motivo: motivo, temPlano: temPlano, operadora: operadora, tempo: tempo, valor: valor
+  });
+
+  // Monta mensagem WhatsApp
+  var msg = 'Torneio Elite Beach Tennis 2026\n';
+  msg += '---\n';
+  msg += 'Nome: ' + nome + '\n';
+  msg += 'WhatsApp: ' + telefone + '\n';
+  if (cnpj) msg += 'CNPJ: ' + cnpj + '\n';
+  if (tipo) msg += 'Tipo: ' + tipo + '\n';
+  if (qtd) msg += 'Pessoas: ' + qtd + '\n';
+  if (motivo) msg += 'Interesse: ' + motivo + '\n';
+  if (temPlano) {
+    msg += 'Ja tem plano: ' + temPlano + '\n';
+    if (temPlano === 'Sim') {
+      if (operadora) msg += 'Operadora: ' + operadora + '\n';
+      if (tempo) msg += 'Tempo: ' + tempo + '\n';
+      if (valor) msg += 'Valor atual: ' + valor + '\n';
+    }
+  }
+  msg += '---\n';
+  msg += 'Quero garantir meu cashback da 1a mensalidade!';
+
+  var url = 'https://wa.me/5521978944636?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+}
+
+updateProgress();
+
+var style = document.createElement('style');
+style.textContent = '@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }';
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>
